@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM anujdatar/box86
 
 ENV HOME=/home/zoomrec \
     TZ=Europe/Berlin \
@@ -81,7 +81,7 @@ RUN apt-get update && \
         libsqlite3-0 \
         libxcb-keysyms1 \
         libxcb-xtest0 && \
-# Install Zoom
+ Install Zoom
     wget -q -O zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb && \
     dpkg -i zoom_amd64.deb && \
     apt-get -f install -y && \
