@@ -95,7 +95,7 @@ RUN apt-get update && \
         scrot && \
     pip3 install --upgrade --no-cache-dir -r ${HOME}/res/requirements.txt && \
 # Install VLC - optional
-    apt-get install --no-install-recommends -y vlc && 
+    apt-get install --no-install-recommends -y vlc
 
 # Install Zoom
 RUN apt-get install libxcb-xtest0 && \
