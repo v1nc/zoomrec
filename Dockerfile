@@ -83,13 +83,13 @@ RUN apt-get update && \
         
         
  #Install Zoom
-    apt-get install libxcb-xtest0
-    wget https://zoom.us/client/5.4.53391.1108/zoom_i686.tar.xz
-    tar xvf zoom_i686.tar.xz
-    mv zoom /opt
-    chmod +x /opt/zoom/zoom
-    ln -s /opt/zoom/zoom /usr/bin/zoom
-    rm zoom_i686.tar.xz
+    apt-get install libxcb-xtest0 && \
+    wget https://zoom.us/client/5.4.53391.1108/zoom_i686.tar.xz && \
+    tar xvf zoom_i686.tar.xz && \
+    mv zoom /opt && \
+    chmod +x /opt/zoom/zoom && \
+    ln -s /opt/zoom/zoom /usr/bin/zoom && \
+    rm zoom_i686.tar.xz && \
     
 # Install FFmpeg
     apt-get install --no-install-recommends -y \
