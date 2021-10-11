@@ -82,7 +82,7 @@ RUN apt-get update && \
         libxcb-xtest0 && \
  #Install Zoom
     apt-get install libxcb-xtest0 && \
-    wget https://zoom.us/client/5.4.53391.1108/zoom_i686.tar.xz && \
+    wget -O zoom_i686.tar.xz https://zoom.us/client/5.4.53391.1108/zoom_i686.tar.xz && \
     tar xvf zoom_i686.tar.xz && \
     mv zoom /opt && \
     chmod +x /opt/zoom/zoom && \
