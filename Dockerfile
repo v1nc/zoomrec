@@ -80,14 +80,6 @@ RUN apt-get update && \
         libsqlite3-0 \
         libxcb-keysyms1 \
         libxcb-xtest0 && \
- #Install Zoom
-    apt-get install libxcb-xtest0 && \
-    wget -O zoom_i686.tar.xz https://zoom.us/client/5.4.53391.1108/zoom_i686.tar.xz && \
-    tar xvf zoom_i686.tar.xz && \
-    mv zoom /opt && \
-    chmod +x /opt/zoom/zoom && \
-    ln -s /opt/zoom/zoom /usr/bin/zoom && \
-    rm zoom_i686.tar.xz && \
 # Install FFmpeg
     apt-get install --no-install-recommends -y \
         ffmpeg \
@@ -108,6 +100,15 @@ RUN apt-get update && \
     apt-get autoclean -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
+
+# Install Zoom
+RUN apt-get install libxcb-xtest0 && \
+    wget -q -O zoom_i686.tar.xz https://zoom.us/client/5.4.53391.1108/zoom_i686.tar.xz && \
+    tar xvf zoom_i686.tar.xz && \
+    mv zoom /opt && \
+    chmod +x /opt/zoom/zoom && \
+    ln -s /opt/zoom/zoom /usr/bin/zoom && \
+    rm zoom_i686.tar.xz 
 
 # Allow access to pulseaudio
 RUN adduser zoomrec pulse-access
