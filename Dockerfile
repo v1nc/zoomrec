@@ -21,6 +21,7 @@ ADD res/requirements.txt ${HOME}/res/requirements.txt
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
         apt \
+        build-essential \
         apt-utils \
         ca-certificates \
         publicsuffix \
@@ -94,12 +95,7 @@ RUN apt-get update && \
         scrot && \
     pip3 install --upgrade --no-cache-dir -r ${HOME}/res/requirements.txt && \
 # Install VLC - optional
-    apt-get install --no-install-recommends -y vlc && \
-# Clean up
-    apt-get autoremove --purge -y && \
-    apt-get autoclean -y && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install --no-install-recommends -y vlc && 
 
 # Install Zoom
 RUN apt-get install libxcb-xtest0 && \
@@ -109,6 +105,13 @@ RUN apt-get install libxcb-xtest0 && \
     chmod +x /opt/zoom/zoom && \
     ln -s /opt/zoom/zoom /usr/bin/zoom && \
     rm zoom_i686.tar.xz 
+
+# Clean up
+RUN apt-get autoremove --purge -y && \
+    apt-get autoclean -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
+
 
 # Allow access to pulseaudio
 RUN adduser zoomrec pulse-access
