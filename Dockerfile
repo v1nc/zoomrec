@@ -24,7 +24,7 @@ RUN apt-get update && \
         apt-utils \
         ca-certificates \
         publicsuffix \
-        libapt-pkg6.0 \
+        libapt-pkg5.0 \
         libpsl5 \
         libssl1.1 \
         openssl \
