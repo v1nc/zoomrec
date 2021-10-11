@@ -22,6 +22,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
         apt \
         build-essential \
+        libssl-dev \
         apt-utils \
         ca-certificates \
         publicsuffix \
@@ -84,9 +85,10 @@ RUN apt-get update && \
 # Install FFmpeg
     apt-get install --no-install-recommends -y \
         ffmpeg \
-        libavcodec-extra && \
-# Install Python dependencies for script
-    apt-get install --no-install-recommends -y \
+        libavcodec-extra
+        
+# Install Python dependencies for script        
+RUN apt-get install --no-install-recommends -y \
         python3 \
         python3-pip \
         python3-tk \
