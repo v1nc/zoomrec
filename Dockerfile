@@ -1,6 +1,7 @@
 FROM anujdatar/box86
 
 ENV HOME=/home/zoomrec \
+    SESSION_MANAGER=xfce \
     TZ=Europe/Berlin \
     TERM=xfce4-terminal \
     START_DIR=/start \
