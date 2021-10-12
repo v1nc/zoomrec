@@ -39,8 +39,8 @@ REC_PATH = os.path.join(BASE_PATH, "recordings")
 DEBUG_PATH = os.path.join(REC_PATH, "screenshots")
 
 # Add your Telegram token and chat id here
-TELEGRAM_TOKEN = "BOT_TOKEN"
-TELEGRAM_CHAT_ID = "-100CHAT_ID"
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 TELEGRAM_RETRIES = 5
 
 # Change name that is displayed inside Zoom meeting
