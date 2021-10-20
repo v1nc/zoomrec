@@ -348,11 +348,10 @@ def join(meet_id, meet_pw, duration, description):
 		logging.info("Start recording..")
 
 		filename = os.path.join(
-			REC_PATH, time.strftime(TIME_FORMAT)) + "-" + description + "-JOIN.mkv"
+			REC_PATH, time.strftime(TIME_FORMAT)) + "-" + description + "-JOIN.webm"
 
-		command = "ffmpeg -nostats -loglevel quiet -f pulse -ac 2 -i 1 -f x11grab -r 30 -s " + resolution + " -i " + \
-				  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
-
+		command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i :0.0 -f pulse -ac 2 -i "+disp+" -vcodec vp8 -acodec libvorbis "+ filename
+		
 		ffmpeg_debug = subprocess.Popen(
 			command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
 		atexit.register(os.killpg, os.getpgid(
@@ -666,15 +665,14 @@ def join(meet_id, meet_pw, duration, description):
 	logging.info("Start recording..")
 
 	filename = os.path.join(REC_PATH, time.strftime(
-		TIME_FORMAT) + "-" + description) + ".mkv"
+		TIME_FORMAT) + "-" + description) + ".webm"
 
 	width, height = pyautogui.size()
 	resolution = str(width) + 'x' + str(height)
 	disp = os.getenv('DISPLAY')
 
-	command = "ffmpeg -nostats -loglevel error -f pulse -ac 2 -i 1 -f x11grab -r 30 -s " + resolution + " -i " + \
-			  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
-
+	command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i :0.0 -f pulse -ac 2 -i "+disp+" -vcodec vp8 -acodec libvorbis "+ filename
+	
 	ffmpeg = subprocess.Popen(
 		command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
 
