@@ -38,13 +38,27 @@ IMG_PATH = os.path.join(BASE_PATH, "img")
 REC_PATH = os.path.join(BASE_PATH, "recordings")
 DEBUG_PATH = os.path.join(REC_PATH, "screenshots")
 
-# Add your Telegram token and chat id here
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 TELEGRAM_RETRIES = 5
 
-# Change name that is displayed inside Zoom meeting
-DISPLAY_NAME = "Dieter Gaber"
+DISPLAY_NAME = os.getenv('DISPLAY_NAME')
+if len(DISPLAY_NAME) < 3:
+	NAME_LIST = [
+	    'iPhone',
+	    'iPad',
+	    'Macbook',
+	    'Desktop',
+	    'Huawei',
+	    'Mobile',
+	    'PC',
+	    'Windows',
+	    'Home',
+	    'MyPC',
+	    'Computer',
+	    'Android'
+	]
+	DISPLAY_NAME = random.choice(NAME_LIST)
 
 TIME_FORMAT = "%Y-%m-%d_%H-%M-%S"
 CSV_DELIMITER = ';'
@@ -168,6 +182,11 @@ def send_telegram_message(text):
 	global TELEGRAM_TOKEN
 	global TELEGRAM_CHAT_ID
 	global TELEGRAM_RETRIES
+	
+	if len(TELEGRAM_TOKEN) < 3 or len(TELEGRAM_CHAT_ID) < 3:
+		logging.error("Telegram token or chat_id missing. No Telegram messages will be send!")
+		return
+		
 	url_req = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage" + "?chat_id=" + TELEGRAM_CHAT_ID + "&text=" + text 
 	tries = 0
 	done = False
@@ -177,10 +196,10 @@ def send_telegram_message(text):
 		done = 'ok' in results and results['ok']
 		tries+=1
 		if not done and tries < TELEGRAM_RETRIES:
-			print("Sending Telegram message failed, retring in 5 seconds...")
+			logging.error("Sending Telegram message failed, retring in 5 seconds...")
 			time.sleep(5)
 		if not done and tries >= TELEGRAM_RETRIES:
-			print("Sending Telegram message failed {} times, please check your credentials!".format(tries))
+			logging.error("Sending Telegram message failed {} times, please check your credentials!".format(tries))
 			done = True
 
 def check_connecting(zoom_pid, start_date, duration):
@@ -348,9 +367,10 @@ def join(meet_id, meet_pw, duration, description):
 		logging.info("Start recording..")
 
 		filename = os.path.join(
-			REC_PATH, time.strftime(TIME_FORMAT)) + "-" + description + "-JOIN.webm"
+			REC_PATH, time.strftime(TIME_FORMAT)) + "-" + description + "-JOIN.mkv"
 
-		command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i "+disp+" -f pulse -ac 2 -i default -vcodec vp8 -acodec libvorbis "+ filename
+		command = "ffmpeg -nostats -loglevel quiet -f pulse -ac 2 -i 1 -f x11grab -r 30 -s " + resolution + " -i " + \
+                  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
 		
 		ffmpeg_debug = subprocess.Popen(
 			command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
@@ -665,13 +685,14 @@ def join(meet_id, meet_pw, duration, description):
 	logging.info("Start recording..")
 
 	filename = os.path.join(REC_PATH, time.strftime(
-		TIME_FORMAT) + "-" + description) + ".webm"
+		TIME_FORMAT) + "-" + description) + ".mkv"
 
 	width, height = pyautogui.size()
 	resolution = str(width) + 'x' + str(height)
 	disp = os.getenv('DISPLAY')
 
-	command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i "+disp+" -f pulse -ac 2 -i default -vcodec vp8 -acodec libvorbis "+ filename
+	command = "ffmpeg -nostats -loglevel quiet -f pulse -ac 2 -i 1 -f x11grab -r 30 -s " + resolution + " -i " + \
+                  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
 	
 	ffmpeg = subprocess.Popen(
 		command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
