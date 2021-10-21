@@ -10,6 +10,7 @@ import subprocess
 import threading
 import time
 import atexit
+import requests
 from datetime import datetime, timedelta
 
 global ONGOING_MEETING
