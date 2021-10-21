@@ -45,18 +45,18 @@ TELEGRAM_RETRIES = 5
 DISPLAY_NAME = os.getenv('DISPLAY_NAME')
 if len(DISPLAY_NAME) < 3:
 	NAME_LIST = [
-	    'iPhone',
-	    'iPad',
-	    'Macbook',
-	    'Desktop',
-	    'Huawei',
-	    'Mobile',
-	    'PC',
-	    'Windows',
-	    'Home',
-	    'MyPC',
-	    'Computer',
-	    'Android'
+		'iPhone',
+		'iPad',
+		'Macbook',
+		'Desktop',
+		'Huawei',
+		'Mobile',
+		'PC',
+		'Windows',
+		'Home',
+		'MyPC',
+		'Computer',
+		'Android'
 	]
 	DISPLAY_NAME = random.choice(NAME_LIST)
 
@@ -370,7 +370,7 @@ def join(meet_id, meet_pw, duration, description):
 			REC_PATH, time.strftime(TIME_FORMAT)) + "-" + description + "-JOIN.mkv"
 
 		command = "ffmpeg -nostats -loglevel quiet -f pulse -ac 2 -i 1 -f x11grab -r 30 -s " + resolution + " -i " + \
-                  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
+				  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
 		
 		ffmpeg_debug = subprocess.Popen(
 			command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
@@ -692,7 +692,7 @@ def join(meet_id, meet_pw, duration, description):
 	disp = os.getenv('DISPLAY')
 
 	command = "ffmpeg -nostats -loglevel quiet -f pulse -ac 2 -i 1 -f x11grab -r 30 -s " + resolution + " -i " + \
-                  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
+				  disp + " -acodec pcm_s16le -vcodec libx264rgb -preset ultrafast -crf 0 -threads 0 -async 1 -vsync 1 " + filename
 	
 	ffmpeg = subprocess.Popen(
 		command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
