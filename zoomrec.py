@@ -350,7 +350,7 @@ def join(meet_id, meet_pw, duration, description):
 		filename = os.path.join(
 			REC_PATH, time.strftime(TIME_FORMAT)) + "-" + description + "-JOIN.webm"
 
-		command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i :0.0 -f pulse -ac 2 -i "+disp+" -vcodec vp8 -acodec libvorbis "+ filename
+		command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i "+disp+" -f pulse -ac 2 -i default -vcodec vp8 -acodec libvorbis "+ filename
 		
 		ffmpeg_debug = subprocess.Popen(
 			command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
@@ -671,7 +671,7 @@ def join(meet_id, meet_pw, duration, description):
 	resolution = str(width) + 'x' + str(height)
 	disp = os.getenv('DISPLAY')
 
-	command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i :0.0 -f pulse -ac 2 -i "+disp+" -vcodec vp8 -acodec libvorbis "+ filename
+	command = "ffmpeg -video_size "+resolution+" -framerate 25 -f x11grab -i "+disp+" -f pulse -ac 2 -i default -vcodec vp8 -acodec libvorbis "+ filename
 	
 	ffmpeg = subprocess.Popen(
 		command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
